@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-api-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-api
+  template:
+    metadata:
+      labels:
+        app: todo-api
+    spec:
+      containers:
+        - name: todo-api
+          image: 592141/aspnet-core-8-api-todo-list:latest-dev
+          imagePullPolicy: Always
+          env:
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "5277"
+            - name: ASPNETCORE_URLS
+              value: "http://*:5277"
+            - name: ASPNETCORE_POSTGRES_HOST
+              value: "postgres"
+            - name: ASPNETCORE_POSTGRES_PORT
+              value: "5432"
+            - name: ASPNETCORE_POSTGRES_DATABASE
+              value: "postgres"
+            - name: ASPNETCORE_POSTGRES_USER
+              value: "postgres"
+            - name: ASPNETCORE_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+          resources: {}

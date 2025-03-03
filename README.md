@@ -31,13 +31,13 @@ kubectl get node
 ```
 
 Install helm:
-
+https://helm.sh/docs/intro/install/
 
 Install ingress nginx controller:
 https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
 
 ```bash
-# Deploy ingress controller
+# Deploy nginx ingress controller
 helm upgrade --install ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
   --namespace ingress-nginx --create-namespace
@@ -55,37 +55,22 @@ helm uninstall ingress-nginx --namespace ingress-nginx
 # Apply Deployments and Services
 
 ```bash
+# PostgreSQL
 kubectl apply -f postgres-secret.yaml
 kubectl apply -f postgres-service.yaml
 kubectl apply -f postgres-statefulset.yaml
 kubectl apply -f postgres-pvc.yaml
 
+# TODO
 kubectl apply -f todo-deployment.yaml
 kubectl apply -f todo-service.yaml
 
+# TODO API
 kubectl apply -f todo-api-deployment.yaml
 kubectl apply -f todo-api-service.yaml
 
+# Ingress
 kubectl apply -f ingress.yaml
-```
-
-Access the application at `http://localhost/`
-
-# Delete Deployments and Services
-
-```bash
-kubectl delete -f postgres-secret.yaml
-kubectl delete -f postgres-service.yaml
-kubectl delete -f postgres-statefulset.yaml
-kubectl delete -f postgres-pvc.yaml
-
-kubectl delete -f todo-service.yaml
-kubectl delete -f todo-deployment.yaml
-
-kubectl delete -f todo-api-service.yaml
-kubectl delete -f todo-api-deployment.yaml
-
-kubectl delete -f ingress.yaml
 ```
 
 # Create database
@@ -94,4 +79,27 @@ From the development container, run the following command to create the database
 
 ```bash
 dotnet ef database update
+```
+
+Access the application at `http://localhost/`
+
+# Delete Deployments and Services
+
+```bash
+# PostgreSQL
+kubectl delete -f postgres-secret.yaml
+kubectl delete -f postgres-service.yaml
+kubectl delete -f postgres-statefulset.yaml
+kubectl delete -f postgres-pvc.yaml
+
+# TODO
+kubectl delete -f todo-service.yaml
+kubectl delete -f todo-deployment.yaml
+
+# TODO API
+kubectl delete -f todo-api-service.yaml
+kubectl delete -f todo-api-deployment.yaml
+
+# Ingress
+kubectl delete -f ingress.yaml
 ```
